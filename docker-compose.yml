@@ -1,0 +1,107 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:14
+    container_name: ${PROJECT_NAME:-myapp}_db
+    environment:
+      - POSTGRES_DB=${PGDATABASE:-mydb}
+      - POSTGRES_USER=${PGUSER:-myuser}
+      - POSTGRES_PASSWORD=${PGPASSWORD:-mypassword}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "${PGPORT:-5432}:5432"
+    restart: unless-stopped
+
+  redis:
+    image: redis:7
+    container_name: ${PROJECT_NAME:-myapp}_redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.django
+    container_name: ${PROJECT_NAME:-myapp}_web
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8001:8000" # Changed host port to 8001
+    depends_on:
+      - db
+      - redis
+    environment:
+      - PGDATABASE=${PGDATABASE:-mydb}
+      - PGUSER=${PGUSER:-myuser}
+      - PGPASSWORD=${PGPASSWORD:-mypassword}
+      - PGHOST=db
+      - PGPORT=${PGPORT:-5432}
+      - REDIS_URL=redis://redis:6379/0
+      - DJANGO_SETTINGS_MODULE=mysite.settings
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-change-me}
+      - DEBUG=${DEBUG:-True}
+    restart: unless-stopped
+
+  celery:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.celery
+    container_name: ${PROJECT_NAME:-myapp}_celery
+    command: celery -A tasks worker --loglevel=info
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+    environment:
+      - PGDATABASE=${PGDATABASE:-mydb}
+      - PGUSER=${PGUSER:-myuser}
+      - PGPASSWORD=${PGPASSWORD:-mypassword}
+      - PGHOST=db
+      - PGPORT=${PGPORT:-5432}
+      - REDIS_URL=redis://redis:6379/0
+      - DJANGO_SETTINGS_MODULE=mysite.settings
+    restart: unless-stopped
+
+  celery-beat:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.celery
+    container_name: ${PROJECT_NAME:-myapp}_celery_beat
+    command: celery -A tasks beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+    environment:
+      - PGDATABASE=${PGDATABASE:-mydb}
+      - PGUSER=${PGUSER:-myuser}
+      - PGPASSWORD=${PGPASSWORD:-mypassword}
+      - PGHOST=db
+      - PGPORT=${PGPORT:-5432}
+      - REDIS_URL=redis://redis:6379/0
+      - DJANGO_SETTINGS_MODULE=mysite.settings
+    restart: unless-stopped
+
+  flower:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.celery
+    container_name: ${PROJECT_NAME:-myapp}_flower
+    command: celery -A tasks flower --port=5555 --basic_auth=${FLOWER_USER:-user}:${FLOWER_PASSWORD:-pass}
+    ports:
+      - "5555:5555"
+    depends_on:
+      - celery
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
