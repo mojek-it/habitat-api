@@ -19,6 +19,7 @@ help:
 	@echo "  makemigrations Create new database migrations"
 	@echo "  collectstatic Collect static files"
 	@echo "  install      Install/update Python dependencies"
+	@echo "  test         Run tests using pytest"
 	@echo "  clean        Remove stopped containers and dangling images"
 	@echo "  prune        Remove all unused containers, networks, images, and volumes"
 
@@ -76,6 +77,11 @@ collectstatic:
 .PHONY: install
 install:
 	$(COMPOSE_CMD) exec web pip install -r requirements.txt
+
+# Run tests
+.PHONY: test
+test:
+	$(COMPOSE_CMD) exec web pytest
 
 # Remove stopped containers and dangling images
 .PHONY: clean
