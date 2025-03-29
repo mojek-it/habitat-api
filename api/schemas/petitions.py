@@ -11,11 +11,13 @@ class PetitionSignatureBase(BaseModel):
     email_consent: bool = False
     phone_consent: bool = False
 
-    @validator('phone_number')
+    @validator("phone_number")
     def validate_phone_number(cls, v):
         # Simple validation for phone number with country code
-        if not re.match(r'^\+?[0-9]{5,20}$', v):
-            raise ValueError('Invalid phone number format. Must include country code (e.g., +1234567890)')
+        if not re.match(r"^\+?[0-9]{5,20}$", v):
+            raise ValueError(
+                "Invalid phone number format. Must include country code (e.g., +1234567890)"
+            )
         return v
 
 

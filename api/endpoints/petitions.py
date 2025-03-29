@@ -9,7 +9,7 @@ from api.schemas.petitions import (
     PetitionResponse,
     PetitionDetailResponse,
     PetitionSignatureCreate,
-    PetitionSignatureResponse
+    PetitionSignatureResponse,
 )
 from petitions.models import Petition, PetitionSignature
 
@@ -30,7 +30,7 @@ def create_petition(request, payload: PetitionCreate):
         name=payload.name,
         target=payload.target,
         email_subject=payload.email_subject,
-        email_content=payload.email_content
+        email_content=payload.email_content,
     )
     return petition
 
@@ -46,13 +46,13 @@ def get_petition(request, petition_id: int):
 def update_petition(request, petition_id: int, payload: PetitionUpdate):
     """Update a petition"""
     petition = get_object_or_404(Petition, id=petition_id)
-    
+
     # Update only the fields that are provided
     update_data = payload.dict(exclude_unset=True)
-    
+
     for key, value in update_data.items():
         setattr(petition, key, value)
-    
+
     petition.save()
     return petition
 
@@ -70,7 +70,7 @@ def delete_petition(request, petition_id: int):
 def create_signature(request, petition_id: int, payload: PetitionSignatureCreate):
     """Add a signature to a petition"""
     petition = get_object_or_404(Petition, id=petition_id)
-    
+
     # Create the signature
     signature = PetitionSignature.objects.create(
         petition=petition,
@@ -79,17 +79,18 @@ def create_signature(request, petition_id: int, payload: PetitionSignatureCreate
         email=payload.email,
         phone_number=payload.phone_number,
         email_consent=payload.email_consent,
-        phone_consent=payload.phone_consent
+        phone_consent=payload.phone_consent,
     )
-    
+
     # Increment the signature count
     petition.signature_count += 1
     petition.save()
-    
+
     # Send confirmation email using Celery task
     from tasks.tasks import send_petition_confirmation_email
+
     send_petition_confirmation_email.delay(signature.id)
-    
+
     return signature
 
 

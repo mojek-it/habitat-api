@@ -95,7 +95,7 @@ services:
     container_name: ${PROJECT_NAME:-myapp}_flower
     command: celery -A tasks flower --port=5555 --basic_auth=${FLOWER_USER:-user}:${FLOWER_PASSWORD:-pass}
     ports:
-      - "5555:5555"
+      - "5556:5555"
     depends_on:
       - celery
       - redis

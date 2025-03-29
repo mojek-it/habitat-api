@@ -20,6 +20,8 @@ help:
 	@echo "  collectstatic Collect static files"
 	@echo "  install      Install/update Python dependencies"
 	@echo "  test         Run tests using pytest"
+	@echo "  black        Format code using Black"
+	@echo "  pre-commit   Install pre-commit hooks"
 	@echo "  clean        Remove stopped containers and dangling images"
 	@echo "  prune        Remove all unused containers, networks, images, and volumes"
 
@@ -77,12 +79,22 @@ collectstatic:
 .PHONY: install
 install:
 	$(COMPOSE_CMD) exec web pip install -r requirements.txt
-
 # Run tests
 .PHONY: test
 test:
 	$(COMPOSE_CMD) exec web pytest
 
+# Format code using Black
+.PHONY: black
+black:
+	$(COMPOSE_CMD) exec web black . --exclude=migrations
+
+# Install pre-commit hooks
+.PHONY: pre-commit
+pre-commit:
+	$(COMPOSE_CMD) exec web pre-commit install
+
+# Remove stopped containers and dangling images
 # Remove stopped containers and dangling images
 .PHONY: clean
 clean:
