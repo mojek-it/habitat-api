@@ -10,6 +10,8 @@ pydantic==2.7.4
 redis==5.0.7
 sqlparse==0.5.0
 whitenoise==6.7.0
+wagtail==6.4.1 # Updated Wagtail version
+wagtail-headless-preview>=0.8 # For headless preview
 pytest
 pytest-django
 black==24.3.0

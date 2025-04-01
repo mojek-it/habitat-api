@@ -1,0 +1,26 @@
+# Git
+.git
+.gitignore
+
+# Python cache/artefacts
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+*.egg-info/
+*.egg
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Local environment files (if any)
+.env
+*.env
+
+# Media files (if managed outside the container volume)
+# media/

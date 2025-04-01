@@ -14,12 +14,36 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path, re_path
 
-from api.api import api
+from wagtail import urls as wagtail_urls
+from wagtail.admin import urls as wagtailadmin_urls
+from wagtail.documents import urls as wagtaildocs_urls
+
+from mysite.api import api_router # Import the router from our project's api.py
+from api.api import api # Existing Django Ninja API
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("api/", api.urls),  # Django Ninja API
+    path("django-admin/", admin.site.urls),
+    path("admin/", include(wagtailadmin_urls)),
+    path("documents/", include(wagtaildocs_urls)),
+    path("api/", api.urls),  # Existing Django Ninja API
+    path("api/v2/", api_router.urls), # Use the imported api_router
+] 
+
+if settings.DEBUG:
+    # Serve static and media files from development server
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns = urlpatterns + [
+    # For anything not caught by a more specific rule above, hand over to
+    # Wagtail's page serving mechanism. This should be the last pattern.
+    path("", include(wagtail_urls)),
+    # Alternatively, if you want Wagtail pages to be served from a subpath
+    # of your site, rather than the site root:
+    #    path("pages/", include(wagtail_urls)),
 ]

@@ -41,6 +41,28 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    # Wagtail core
+    "wagtail.contrib.forms",
+    "wagtail.contrib.redirects",
+    "wagtail.embeds",
+    "wagtail.sites",
+    "wagtail.users",
+    "wagtail.snippets",
+    "wagtail.documents",
+    "wagtail.images",
+    "wagtail.search",
+    "wagtail.admin",
+    "wagtail",
+    "wagtail.api.v2", # Wagtail API v2
+
+    # Third-party apps required by Wagtail
+    "modelcluster",
+    "taggit",
+    "wagtail_headless_preview", # Headless preview support
+
+    # Project apps
+    "cms", # App for Wagtail models
     "django_celery_beat",
     "petitions",
     "api",
@@ -56,6 +78,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    # Wagtail middleware
+    "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
 ROOT_URLCONF = "mysite.urls"
@@ -148,3 +172,21 @@ CELERY_TIMEZONE = TIME_ZONE
 # Email settings
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # For development
 DEFAULT_FROM_EMAIL = "petitions@example.com"
+
+# Wagtail settings
+WAGTAIL_SITE_NAME = "My Habitat Site"
+
+# Base URL to serve media files uploaded by users
+MEDIA_URL = "/media/"
+
+# Path where media is stored
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# Wagtail Headless Preview configuration
+WAGTAIL_HEADLESS_PREVIEW = {
+    "CLIENT_URLS": {
+        "default": "http://localhost:3050/preview", # URL for default site preview
+    },
+    "SERVER_URL": None, # Optional: If your Wagtail admin is not on the same domain
+    "REDIRECT_ON_PREVIEW": False, # Keep False for headless
+}
