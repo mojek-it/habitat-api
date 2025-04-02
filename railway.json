@@ -4,7 +4,7 @@
         "builder": "RAILPACK"
     },
     "deploy": {
-        "startCommand": "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn mysite.wsgi"
+        "startCommand": "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn src.mysite.wsgi"
         
     }
 

@@ -1,3 +1,4 @@
-from .celery import app as celery_app
+# This makes the Celery app instance discoverable as 'src.tasks.app'
+from .celery import app
 
-__all__ = ("celery_app",)
+__all__ = ("app",)

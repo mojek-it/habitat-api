@@ -1,7 +1,7 @@
 
 from wagtail_modeladmin.options import ModelAdmin, modeladmin_register
 
-from .models import Petition, PetitionSignature
+from src.petitions.models import Petition, PetitionSignature # Use absolute import
 
 
 class PetitionAdmin(ModelAdmin):

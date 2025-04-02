@@ -30,7 +30,7 @@ class PetitionSignatureResponse(PetitionSignatureBase):
     created_at: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class PetitionBase(BaseModel):
@@ -59,11 +59,11 @@ class PetitionResponse(PetitionBase):
     updated_at: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class PetitionDetailResponse(PetitionResponse):
     signatures: List[PetitionSignatureResponse] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True

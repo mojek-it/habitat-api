@@ -41,6 +41,7 @@ class Petition(models.Model):
         return f"{self.name} ({self.signature_count}/{self.target})"
 
     class Meta:
+        app_label = 'src.petitions' # Explicitly define the app label
         ordering = ["-created_at"]
         verbose_name = "Formularz Petycji"
         verbose_name_plural = "Formularze Petycji"
@@ -84,6 +85,7 @@ class PetitionSignature(models.Model):
         return f"{self.first_name} {self.last_name} - {self.petition.name}"
 
     class Meta:
+        app_label = 'src.petitions' # Explicitly define the app label
         ordering = ["-created_at"]
         unique_together = ["petition", "email"]  # Prevent duplicate signatures
         verbose_name = "Podpis Petycji"
