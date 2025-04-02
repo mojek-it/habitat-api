@@ -7,7 +7,7 @@ from .models import Petition, PetitionSignature
 class PetitionAdmin(ModelAdmin):
     """Wagtail Admin interface for Petitions."""
     model = Petition
-    menu_order = 100 
+    menu_order = 2
     menu_label = 'Forumlarze Petycji'  # Label in the Wagtail admin menu
     menu_icon = 'doc-full-inverse'  # Icon
     list_display = ('name', 'target', 'signature_count', 'created_at', 'updated_at')
@@ -21,7 +21,7 @@ class PetitionSignatureAdmin(ModelAdmin):
     """Wagtail Admin interface for Petition Signatures."""
     model = PetitionSignature
     menu_label = 'Podpisy' # Label in the Wagtail admin menu
-    menu_order = 101 
+    menu_order = 3
     menu_icon = 'user' # Icon
     list_display = (
         'first_name',
