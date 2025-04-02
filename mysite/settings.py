@@ -42,6 +42,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
+    # Project apps
+    "cms", # App for Wagtail models (Moved before wagtail.admin for template overrides)
+    "petitions",
+    "api",
+    "tasks",
+
     # Wagtail core
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -60,13 +66,8 @@ INSTALLED_APPS = [
     "modelcluster",
     "taggit",
     "wagtail_headless_preview", # Headless preview support
-
-    # Project apps
-    "cms", # App for Wagtail models
-    "django_celery_beat",
-    "petitions",
-    "api",
-    "tasks",
+    "wagtail_modeladmin",
+    "django_celery_beat", # Moved here as it's third-party related
 ]
 
 MIDDLEWARE = [
@@ -102,7 +103,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "mysite.wsgi.application"
 
-
+HEADLESS_PREVIEW_CLIENT_URLS = {
+    'default': 'http://localhost:3011/',  # lub inny adres Twojej aplikacji frontendowej
+}
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 

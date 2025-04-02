@@ -16,3 +16,4 @@ pytest
 pytest-django
 black==24.3.0
 pre-commit==3.6.0
+wagtail-modeladmin==2.1.0

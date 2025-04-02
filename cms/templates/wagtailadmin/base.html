@@ -1,0 +1,8 @@
+{% extends "wagtailadmin/base.html" %}
+{% load static %}
+
+{% block branding_logo %}
+    {# Używamy logo podanego przez użytkownika: static/logo.png #}
+    {# Używamy wymiarów podanych przez użytkownika: 80x26px #}
+    <img src="{% static 'logo.png' %}" alt="Logo Projektu"  />
+{% endblock %}
