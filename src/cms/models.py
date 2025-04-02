@@ -5,7 +5,7 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.api import APIField
 
 # Import the Petition model from your petitions app
-from petitions.models import Petition
+from src.petitions.models import Petition
 from wagtail.admin.panels import FieldPanel
 
 

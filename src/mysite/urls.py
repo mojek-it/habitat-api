@@ -17,14 +17,13 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path, re_path
-
+from django.urls import include, path
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
-from mysite.api import api_router # Import the router from our project's api.py
-from api.api import api # Existing Django Ninja API
+from src.api.api import api  # Existing Django Ninja API
+from src.mysite.api import api_router  # Import the router from our project's api.py
 
 urlpatterns = [
     path("django-admin/", admin.site.urls),

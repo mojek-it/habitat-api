@@ -3,7 +3,7 @@ from ninja import Router
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 
-from api.schemas.petitions import (
+from src.api.schemas.petitions import (
     PetitionCreate,
     PetitionUpdate,
     PetitionResponse,
@@ -11,7 +11,7 @@ from api.schemas.petitions import (
     PetitionSignatureCreate,
     PetitionSignatureResponse,
 )
-from petitions.models import Petition, PetitionSignature
+from src.petitions.models import Petition, PetitionSignature
 
 # Create a router for petition endpoints
 router = Router()
@@ -87,7 +87,7 @@ def create_signature(request, petition_id: int, payload: PetitionSignatureCreate
     petition.save()
 
     # Send confirmation email using Celery task
-    from tasks.tasks import send_petition_confirmation_email
+    from src.tasks.tasks import send_petition_confirmation_email
 
     send_petition_confirmation_email.delay(signature.id)
 

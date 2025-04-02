@@ -25,4 +25,4 @@ COPY . /app/
 
 # Default command to run when starting the container
 # This will be overridden by docker-compose or podman-compose
-CMD ["celery", "-A", "tasks", "worker", "--loglevel=info"]
+CMD ["celery", "-A", "src.tasks", "worker", "--loglevel=info"]

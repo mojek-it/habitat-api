@@ -10,7 +10,7 @@ api = NinjaAPI(
 )
 
 # Import and include routers from endpoints
-from api.endpoints.petitions import router as petitions_router
+from src.api.endpoints.petitions import router as petitions_router
 
 # Add routers to the API
 api.add_router("/petitions/", petitions_router)

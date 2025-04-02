@@ -41,9 +41,10 @@ services:
       - PGHOST=db
       - PGPORT=${PGPORT:-5432}
       - REDIS_URL=redis://redis:6379/0
-      - DJANGO_SETTINGS_MODULE=mysite.settings
+      - DJANGO_SETTINGS_MODULE=src.mysite.settings
       - SECRET_KEY=${SECRET_KEY:-django-insecure-change-me}
       - DEBUG=${DEBUG:-True}
+      - WAGTAILADMIN_BASE_URL="/console-hq"
     restart: unless-stopped
 
   celery:
@@ -51,7 +52,7 @@ services:
       context: .
       dockerfile: docker/Dockerfile.celery
     container_name: ${PROJECT_NAME:-myapp}_celery
-    command: celery -A tasks worker --loglevel=info
+    command: celery -A src.tasks worker --loglevel=info
     volumes:
       - .:/app
     depends_on:
@@ -64,7 +65,8 @@ services:
       - PGHOST=db
       - PGPORT=${PGPORT:-5432}
       - REDIS_URL=redis://redis:6379/0
-      - DJANGO_SETTINGS_MODULE=mysite.settings
+      - DJANGO_SETTINGS_MODULE=src.mysite.settings
+      
     restart: unless-stopped
 
   celery-beat:
@@ -72,7 +74,7 @@ services:
       context: .
       dockerfile: docker/Dockerfile.celery
     container_name: ${PROJECT_NAME:-myapp}_celery_beat
-    command: celery -A tasks beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    command: celery -A src.tasks beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
     volumes:
       - .:/app
     depends_on:
@@ -85,7 +87,8 @@ services:
       - PGHOST=db
       - PGPORT=${PGPORT:-5432}
       - REDIS_URL=redis://redis:6379/0
-      - DJANGO_SETTINGS_MODULE=mysite.settings
+      - DJANGO_SETTINGS_MODULE=src.mysite.settings
+      
     restart: unless-stopped
 
   flower:
@@ -100,6 +103,7 @@ services:
       - celery
       - redis
     environment:
+    
       - REDIS_URL=redis://redis:6379/0
     restart: unless-stopped
 

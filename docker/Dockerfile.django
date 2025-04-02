@@ -28,4 +28,4 @@ EXPOSE 8000
 
 # Default command to run when starting the container
 # This will be overridden by docker-compose or podman-compose
-CMD ["gunicorn", "mysite.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "src.mysite.wsgi:application", "--bind", "0.0.0.0:8000"]

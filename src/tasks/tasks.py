@@ -11,7 +11,7 @@ def send_petition_confirmation_email(signature_id):
     Args:
         signature_id: The ID of the PetitionSignature
     """
-    from petitions.models import PetitionSignature
+    from src.petitions.models import PetitionSignature
 
     try:
         # Get the signature

@@ -2,8 +2,8 @@ import pytest
 from django.core import mail
 from unittest.mock import patch, MagicMock
 
-from petitions.models import Petition, PetitionSignature
-from tasks.tasks import send_petition_confirmation_email
+from src.petitions.models import Petition, PetitionSignature
+from src.tasks.tasks import send_petition_confirmation_email
 
 
 @pytest.mark.django_db

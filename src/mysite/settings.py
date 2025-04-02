@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent # Go up one more level to the project root
 
 
 # Quick-start development settings - unsuitable for production
@@ -43,10 +43,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     # Project apps
-    "cms", # App for Wagtail models (Moved before wagtail.admin for template overrides)
-    "petitions",
-    "api",
-    "tasks",
+    "src.cms", # App for Wagtail models (Moved before wagtail.admin for template overrides)
+    "src.petitions",
+    "src.api",
+    "src.tasks",
 
     # Wagtail core
     "wagtail.contrib.forms",
@@ -83,7 +83,7 @@ MIDDLEWARE = [
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
-ROOT_URLCONF = "mysite.urls"
+ROOT_URLCONF = "src.mysite.urls"
 
 TEMPLATES = [
     {
@@ -101,7 +101,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "mysite.wsgi.application"
+WSGI_APPLICATION = "src.mysite.wsgi.application"
 
 HEADLESS_PREVIEW_CLIENT_URLS = {
     'default': 'http://localhost:3011/',  # lub inny adres Twojej aplikacji frontendowej
@@ -143,9 +143,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "PL-pl"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Warsaw"
 
 USE_I18N = True
 
@@ -177,7 +177,7 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # For developm
 DEFAULT_FROM_EMAIL = "petitions@example.com"
 
 # Wagtail settings
-WAGTAIL_SITE_NAME = "My Habitat Site"
+WAGTAIL_SITE_NAME = "Habitat"
 
 # Base URL to serve media files uploaded by users
 MEDIA_URL = "/media/"
@@ -188,7 +188,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # Wagtail Headless Preview configuration
 WAGTAIL_HEADLESS_PREVIEW = {
     "CLIENT_URLS": {
-        "default": "http://localhost:3050/preview", # URL for default site preview
+        "default": "http://localhost:3050", # URL for default site preview
     },
     "SERVER_URL": None, # Optional: If your Wagtail admin is not on the same domain
     "REDIRECT_ON_PREVIEW": False, # Keep False for headless

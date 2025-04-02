@@ -160,7 +160,7 @@ class TestCeleryTasks:
 
     def test_send_petition_confirmation_email(self, petition_and_signature):
         """Test sending a confirmation email"""
-        from tasks.tasks import send_petition_confirmation_email
+        from src.tasks.tasks import send_petition_confirmation_email
 
         petition, signature = petition_and_signature
 
@@ -181,7 +181,7 @@ class TestCeleryTasks:
 
     def test_send_petition_confirmation_email_nonexistent_signature(self):
         """Test sending a confirmation email for a nonexistent signature"""
-        from tasks.tasks import send_petition_confirmation_email
+        from src.tasks.tasks import send_petition_confirmation_email
 
         # Call the task with a nonexistent signature ID
         result = send_petition_confirmation_email(999)

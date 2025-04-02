@@ -1,7 +1,7 @@
 import pytest
 from django.urls import reverse
 
-from petitions.models import Petition, PetitionSignature
+from src.petitions.models import Petition, PetitionSignature
 from api.schemas.petitions import (
     PetitionBase,
     PetitionCreate,

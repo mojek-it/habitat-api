@@ -1,5 +1,5 @@
 from typing import List, Optional
-from pydantic import BaseModel, Field, EmailStr, validator
+from pydantic import BaseModel, Field, EmailStr, field_validator
 import re
 
 
@@ -11,7 +11,7 @@ class PetitionSignatureBase(BaseModel):
     email_consent: bool = False
     phone_consent: bool = False
 
-    @validator("phone_number")
+    @field_validator("phone_number")
     def validate_phone_number(cls, v):
         # Simple validation for phone number with country code
         if not re.match(r"^\+?[0-9]{5,20}$", v):
